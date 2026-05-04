@@ -1,0 +1,11 @@
+{
+  "name": "med-rag-eval-suite",
+  "private": true,
+  "description": "Monorepo root — run npm scripts from here or from frontend/",
+  "scripts": {
+    "dev": "npm --prefix ./frontend run dev",
+    "build": "npm --prefix ./frontend run build",
+    "preview": "npm --prefix ./frontend run preview",
+    "dev:api": "powershell -ExecutionPolicy Bypass -NoProfile -File ./backend/run_uvicorn.ps1"
+  }
+}
