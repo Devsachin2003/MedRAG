@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { apiUrl } from "../config/api";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
@@ -14,7 +15,7 @@ function formatApiError(status: number, data: unknown): string {
   if (d?.detail != null && typeof d.detail === "object") {
     return `${status}: ${JSON.stringify(d.detail)}`;
   }
-  return `${status}: Upload failed — check that the API is running (port 8000) and try again.`;
+  return `${status}: Upload failed — check that the backend API is reachable and try again.`;
 }
 
 export function DocumentIngestion() {
@@ -30,7 +31,7 @@ export function DocumentIngestion() {
     const fd = new FormData();
     fd.append("file", file, file.name);
     try {
-      const res = await fetch("/api/ingest/upload", { method: "POST", body: fd });
+      const res = await fetch(apiUrl("/api/ingest/upload"), { method: "POST", body: fd });
       const rawText = await res.text();
       let data: unknown = {};
       try {
@@ -49,7 +50,7 @@ export function DocumentIngestion() {
       setLastResult(row);
     } catch {
       setStatus("error");
-      setMessage("Network error — is the FastAPI server running on port 8000?");
+      setMessage("Network error — is the backend API running and reachable?");
     }
   }, []);
 

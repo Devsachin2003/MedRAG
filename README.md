@@ -83,7 +83,24 @@ npm install
 npm run dev
 ```
 
-If needed, ensure the frontend is configured to talk to the backend at `http://127.0.0.1:8000`.
+By default, the frontend uses `http://localhost:8000` for API calls in local development.
+
+## Production Deployment
+
+Deploy the backend and frontend separately:
+
+- **Backend:** Render Web Service built from `backend/Dockerfile`
+- **Frontend:** Vercel project built from `frontend/`
+
+Set the following environment variables in your hosting dashboards:
+
+- **Render (backend)**
+  - `GROQ_API_KEY` (required)
+  - `GROQ_MODEL` (optional, defaults to `llama-3.1-8b-instant`)
+- **Vercel (frontend)**
+  - `VITE_API_URL` (required in production), set this to your deployed Render backend base URL (for example `https://medrag-backend.onrender.com`)
+
+ChromaDB persistence in production relies on the Render persistent disk configured in `render.yaml`, mounted at `backend/chroma_data` (`/opt/render/project/src/backend/chroma_data` in the container).
 
 ## Running the Evaluation
 
