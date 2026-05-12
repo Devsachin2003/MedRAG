@@ -103,7 +103,8 @@ Set the following environment variables in your hosting dashboards:
     If omitted, the frontend falls back to `http://localhost:8000`, which is only intended for
     local development.
 
-ChromaDB persistence in production relies on the Render persistent disk configured in `render.yaml`, mounted at `backend/chroma_data` (`/opt/render/project/src/backend/chroma_data` in the container).
+ChromaDB persistence in production relies on the Render persistent disk configured in `render.yaml`,
+mounted at `backend/chroma_data` (`/app/chroma_data` in the container).
 
 ## Running the Evaluation
 

@@ -11,5 +11,5 @@ services:
         value: llama-3.1-8b-instant
     disk:
       name: medrag-chroma-data
-      mountPath: /opt/render/project/src/backend/chroma_data
+      mountPath: /app/chroma_data
       sizeGB: 1
