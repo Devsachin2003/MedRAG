@@ -98,7 +98,10 @@ Set the following environment variables in your hosting dashboards:
   - `GROQ_API_KEY` (required)
   - `GROQ_MODEL` (optional, defaults to `llama-3.1-8b-instant`)
 - **Vercel (frontend)**
-  - `VITE_API_URL` (**must be set in production**), point it to your deployed Render backend base URL (for example `https://medrag-backend.onrender.com`). If omitted, the frontend falls back to `http://localhost:8000`, which is only intended for local development.
+  - `VITE_API_URL` (**must be set in production**), point it to your deployed Render backend
+    base URL (for example `https://medrag-backend.onrender.com`).
+    If omitted, the frontend falls back to `http://localhost:8000`, which is only intended for
+    local development.
 
 ChromaDB persistence in production relies on the Render persistent disk configured in `render.yaml`, mounted at `backend/chroma_data` (`/opt/render/project/src/backend/chroma_data` in the container).
 
