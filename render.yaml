@@ -3,7 +3,7 @@ services:
     name: medrag-backend
     env: docker
     rootDir: backend
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: Dockerfile
     envVars:
       - key: GROQ_API_KEY
         sync: false
