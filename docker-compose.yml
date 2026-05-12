@@ -9,8 +9,8 @@ services:
     env_file:
       - ./backend/.env
     volumes:
-      - ./backend/chroma_data:/app/chroma_data
-      - ./backend/uploads:/app/uploads
+      - ./backend/chroma_data:/app/backend/chroma_data
+      - ./backend/uploads:/app/backend/uploads
     restart: unless-stopped
 
   frontend:
