@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
@@ -71,6 +72,11 @@ def health() -> dict[str, Any]:
     return {"status": "ok", "collection_count": collection_count()}
 
 
+@app.get("/version")
+def version() -> dict[str, str]:
+    return {"version": os.getenv("MEDRAG_VERSION", app.version)}
+
+
 @app.post("/ingest")
 async def ingest(file: UploadFile = File(...)) -> dict[str, Any]:
     return await _ingest_uploaded_file(file, pdf_only=True)
@@ -80,7 +86,7 @@ async def ingest(file: UploadFile = File(...)) -> dict[str, Any]:
 async def chat(body: ChatRequest) -> dict[str, Any]:
     import logging
     logger = logging.getLogger(__name__)
-    
+
     query = body.query.strip()
     if not query:
         raise HTTPException(status_code=400, detail="query required")
@@ -88,9 +94,9 @@ async def chat(body: ChatRequest) -> dict[str, Any]:
     logger.info(f"\n{'='*80}")
     logger.info(f"[CHAT ENDPOINT] Received query: {query}")
     logger.info(f"{'='*80}")
-    
+
     contexts = retrieve_context(query, k=6)
-    
+
     logger.info(f"[CHAT ENDPOINT] Retrieved {len(contexts)} context chunks")
     for idx, ctx in enumerate(contexts):
         preview = ctx["text"][:100].replace("\n", " ")[:100]
@@ -99,10 +105,10 @@ async def chat(body: ChatRequest) -> dict[str, Any]:
             f"chunk_index={ctx['chunk_index']}, distance={ctx['distance']}, "
             f"preview='{preview}...'"
         )
-    
+
     response = await asyncio.to_thread(generate_grounded_response, query, contexts)
     logger.info(f"[CHAT ENDPOINT] LLM Response: {response[:200]}...\n")
-    
+
     return {"response": response, "sources": contexts}
 
 

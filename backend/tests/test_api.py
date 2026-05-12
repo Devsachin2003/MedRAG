@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -47,6 +49,13 @@ def test_health_check(client):
     assert "collection_count" in payload
 
 
+def test_version_endpoint(client):
+    os.environ["MEDRAG_VERSION"] = "1.2.3"
+    response = client.get("/version")
+    assert response.status_code == 200
+    assert response.json() == {"version": "1.2.3"}
+
+
 def test_ingest_upload_happy_path(client):
     response = client.post(
         "/api/ingest/upload",
@@ -66,3 +75,14 @@ def test_run_evaluation_contract(client):
     assert "summary" in payload
     assert "cases" in payload
     assert "output_csv" in payload
+
+
+@pytest.mark.integration
+def test_ingest_integration(tmp_path, monkeypatch):
+    monkeypatch.setenv("CHROMA_DB_IMPL", "duckdb")
+    monkeypatch.setenv("PERSIST_DIRECTORY", str(tmp_path))
+    from app import rag_core
+
+    content = b"This is a test document for integration."
+    result = rag_core.ingest_document(content, "sample.txt")
+    assert result["chunks_stored"] >= 1
