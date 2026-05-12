@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import { apiUrl } from "../config/api";
 
 export type SourceChunk = {
   text: string;
@@ -57,7 +58,7 @@ export function Chat() {
     let sources: SourceChunk[] = [];
 
     try {
-      const res = await fetch("/api/chat/stream", {
+      const res = await fetch(apiUrl("/api/chat/stream"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -103,7 +104,7 @@ export function Chat() {
           m.id === assistantId
             ? {
                 ...m,
-                content: "Could not reach the chat endpoint. Start the backend with `uvicorn app.main:app --reload` from the `backend` folder.",
+                content: "Could not reach the chat endpoint. Check that the backend API is running and reachable.",
                 sources,
               }
             : m

@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: medrag-backend
+    env: docker
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
+    disk:
+      name: medrag-chroma-data
+      mountPath: /app/chroma_data
+      sizeGB: 1

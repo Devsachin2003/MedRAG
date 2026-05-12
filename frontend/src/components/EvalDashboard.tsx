@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { apiUrl } from "../config/api";
 
 type EvalSummary = {
   context_precision: number;
@@ -103,7 +104,7 @@ export function EvalDashboard() {
     setRunning(true);
     setError(null);
     try {
-      const response = await fetch("/api/evaluation/run", {
+      const response = await fetch(apiUrl("/api/evaluation/run"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({}),
