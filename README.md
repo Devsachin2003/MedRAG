@@ -85,6 +85,15 @@ npm run dev
 
 By default, the frontend uses `http://localhost:8000` for API calls in local development.
 
+## Dependency Locking (Optional)
+
+If you want a reproducible lock file for Python dependencies, run:
+
+```bash
+pip install pip-tools
+pip-compile backend/requirements.txt -o backend/requirements-frozen.txt
+```
+
 ## Production Deployment
 
 Deploy the backend and frontend separately:
