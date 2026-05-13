@@ -38,7 +38,7 @@ graph TD
     B --> E[LLM Generation]
     E --> F[Evaluation Metrics]
     F -->|Returns Score| A
-
+```
 ## Repository Layout
 
 - `backend/main.py` - FastAPI application and API routes.
