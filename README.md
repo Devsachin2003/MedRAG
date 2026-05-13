@@ -27,6 +27,18 @@ At a high level, the flow is:
 4. Retrieved chunks are passed to Groq for grounded answer generation.
 5. The evaluation harness runs a fixed benchmark set, collects answers and contexts, and scores them with ragas.
 
+## 🧠 System Architecture
+
+```mermaid
+graph TD
+    A[User/Evaluator] -->|Submits Query| B(FastAPI Backend)
+    B --> C{ChromaDB}
+    C -->|Retrieves Context| D[Medical Document Vector Store]
+    D --> B
+    B --> E[LLM Generation]
+    E --> F[Evaluation Metrics]
+    F -->|Returns Score| A
+
 ## Repository Layout
 
 - `backend/main.py` - FastAPI application and API routes.
@@ -155,5 +167,15 @@ This project is intentionally structured so the evaluation story is easy to show
 ## Troubleshooting
 
 - If the backend reports that the Groq key is missing, confirm the environment variable is set before starting the server.
+
+## 📬 Let's Connect
+
+I'm actively building in the AI/ML space and am always open to feedback, collaboration, or discussing agentic workflows and RAG architectures. 
+
+* **LinkedIn:** [https://www.linkedin.com/in/devsachinsg19/]
+* **GitHub:** [https://github.com/Devsachin2003]
+* **Email:** [devsachin2003@gmail.com]
+
+If you found this evaluation suite helpful, consider giving the repository a ⭐!
 - If evaluation fails, make sure the backend is running and reachable at the URL passed to `evaluate_rag.py`.
 - If you reset the vector store, delete `backend/chroma_data/` and re-ingest your documents.
